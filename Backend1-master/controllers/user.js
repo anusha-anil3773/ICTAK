@@ -82,74 +82,38 @@ exports.deleteUser = async(req, res) => {
 }
 
 
-// Login Api
-// exports.login = (req, res) => {
-//     let userData = req.body;
-//     var flag = false;
-//     var usertype = "";
-//     var username = "";
-
-//     userInfo.find().then(function(user) {
-//         for (let i = 0; i < user.length; i++) {
-//             if (userData.email_id == user[i].email_id && userData.password == user[i].password) {
-//                 console.log("found user", user[i].email_id);
-//                 usertype = user[i].user_type;
-//                 username = user[i].user_name;
-//                 flag = true;
-//                 break;
-//             } else {
-//                 flag = false;
-//             }
-//         }
-//         if (flag == true) {
-//             let payload = { subject: userData.email + userData.password }
-//             let token = jwt.sign(payload, "secretKey");
-//             res.status(200).send({ token, username, userrole });
-//         } else {
-//             res.status(401).send("invalid credentials")
-//         }
-
-//     });
-
-
-// };
 
 
 
 
-// This will be the login function after frontend is ready 
-// exports.login = (req, res) => {
-//     var flag = false;
 
-//     userInfo.findOne({ "email_id": req.body.email_id }).then((user) => {
-//         if (!user) {
-//             return res.status(401).send("User not found");
-//         }
-//         bcrypt.compare(req.body.password, user.password).then((valid) => {
-//             if (!valid) {
-//                 return res.status(401).send("Invalid password");
-//             }
-//             let payload = { subject: userData.email_id + userData.password }
-//             let token = jwt.sign(payload, "secretKey");
-//             var usertype = user.type;
-//             var username = user.name;
-//             res.status(200).send({ token, username, usertype });
-//         })
-//     })
-// };
+
+//login
 exports.login = async(req, res) => {
-    try {
-        let user = await userInfo.findOne({
-            email: req.body.email_id,
-            password: req.body.password
-        })
-        if (!user) {
-            return res.json({ message: "Invalid Credentials" });
 
 
-        }
-        res.send(user)
-    } catch (error) {
-        console.log(error)
-    }
+
+    console.log("test",req.body);
+
+   
+        try {
+	let user = await userInfo.findOne({ email: req.body.email_id, password: req.body.password })
+	        let payload = {'email':req.body.email_id,'password':req.body.password}
+	        let token = jwt.sign(payload,'secretkey')
+	
+	        if (!user) {
+	            
+	            return res.json({ message: "Invalid Credentials" });
+	
+	
+	        }
+	        console.log("test",req.body);
+	        res.send({ 'token': token, 'email': user.email_id, 'password': user.password });
+	
+	
+} catch (error) {
+    console.log(error)
+
+}
+    
 }
