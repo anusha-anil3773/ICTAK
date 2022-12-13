@@ -19,7 +19,7 @@ export class StudentslistComponent implements OnInit {
   count: number = 0;
   tableSize: number = 6;
   filterTerm!: string;
-
+  result:any=[];
   constructor(private apiService: ApiService,  private router: Router) { }
 
   ngOnInit(): void {
@@ -31,6 +31,7 @@ export class StudentslistComponent implements OnInit {
   getstudentData() {
     this.apiService.getstudentsList().subscribe(res => {
       this.students = res;
+      console.log(this.result)
     })
   }
 

@@ -12,6 +12,15 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  user={
+    
+    'email_id' : '',
+    'password' : ''
+
+    
+  }
+  message:any
+  id:any
 
   constructor(private auth: AuthService,
     private router: Router,
@@ -20,33 +29,50 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  userform={
-    
-    'email' : '',
-    'password' : ''
-
-    
-  }
   
 userverify(){
-  this.auth.loginUser(this.userform).subscribe(res=>{
-    if(res.message){
-      alert(res.message)
-    }
-    else if (res.email_id == "admin123@gmail.com" && res.password =="admin123"){
+//   this.auth.loginUser(this.userform).subscribe(res=>{
+//     if(res.message){
+//       alert(res.message)
+//     }
+//     else if (res.email_id == "admin123@gmail.com" && res.password =="admin123"){
+//       alert("Admin has successfully logged in")
+//       this.router.navigate(['/studentslist'])
+
+//     }
+//     else{
+//       alert("Staff has successfully logged in")
+
+//       this.router.navigate(['/landingtrainer'])
+
+//     }
+//   })
+  
+// }
+
+
+  try{
+  this.auth.login(this.user).subscribe(res=>{
+   console.log(res)
+   if (res.adminstatus){
+    localStorage.setItem('token',this.id);
+
       alert("Admin has successfully logged in")
       this.router.navigate(['/studentslist'])
 
-    }
-    else{
-      alert("Staff has successfully logged in")
+     }
+     else{
+      localStorage.setItem('token',this.id);
+
+      alert("Faculty has successfully logged in")
 
       this.router.navigate(['/landingtrainer'])
 
-    }
-  })
-  
+     }
+ })
 }
-
-
+catch(error){
+console.log(error)
+}
+}
 }

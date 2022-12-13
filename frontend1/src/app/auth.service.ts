@@ -12,14 +12,14 @@ export class AuthService {
   constructor(private http:HttpClient) { }
 
 
-loginUser(user:any){
+login(user:any){
 
   return this.http.post<any>('http://localhost:3000/api/login',user);
 }
 loggedIn(){
   return !! localStorage.getItem('token')
 }
-getToken(){
+getUserToken(){
   return localStorage.getItem('token');
 }
 getUser()
